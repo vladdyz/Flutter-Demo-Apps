@@ -1,4 +1,3 @@
-
 // not a widget, but a reusable model for the questions data
 class QuizQuestion {
   const QuizQuestion(this.text, this.answers);
@@ -12,6 +11,4 @@ class QuizQuestion {
     final shuffledList = List.of(answers)..shuffle();
     return shuffledList;
   }
-
-
 }

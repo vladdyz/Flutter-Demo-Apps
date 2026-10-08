@@ -28,9 +28,9 @@ class SummaryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCorrect = itemData['chosen_answer'] == itemData['correct_answer'];
-    
-    final indicatorColor = isCorrect 
-        ? const Color.fromARGB(255, 75, 175, 120) 
+
+    final indicatorColor = isCorrect
+        ? const Color.fromARGB(255, 75, 175, 120)
         : const Color.fromARGB(255, 230, 90, 115);
 
     return Padding(
@@ -50,13 +50,13 @@ class SummaryItem extends StatelessWidget {
             child: Text(
               '${(itemData['questions_index'] as int) + 1}',
               style: const TextStyle(
-                color: Colors.white, 
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           const SizedBox(width: 20),
-          
+
           // Question Details Column
           Expanded(
             child: Column(
@@ -65,8 +65,8 @@ class SummaryItem extends StatelessWidget {
                 Text(
                   itemData['question_text'] as String,
                   style: GoogleFonts.amaranth(
-                    color: Colors.white, 
-                    fontSize: 16, 
+                    color: Colors.white,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -84,7 +84,7 @@ class SummaryItem extends StatelessWidget {
                   style: const TextStyle(
                     color: Color.fromARGB(255, 55, 11, 186),
                     fontSize: 14,
-                   // fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.bold,
                   ),
                 ),
               ],

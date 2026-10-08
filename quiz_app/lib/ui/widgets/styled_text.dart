@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class StyledText extends StatelessWidget {
   const StyledText(this.text, this.fontSize, {super.key});
 
@@ -15,13 +14,13 @@ class StyledText extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-            // I recycle this for various sizes, so it can no longer be const
-            // Note: Google Fonts also aren't defined as const either
-            style: GoogleFonts.amaranth(
-              color: const Color.fromARGB(150, 218, 217, 217),
-              fontSize: fontSize ?? 20,
-              fontWeight: FontWeight.bold,
-            ),
+        // I recycle this for various sizes, so it can no longer be const
+        // Note: Google Fonts also aren't defined as const either
+        style: GoogleFonts.amaranth(
+          color: const Color.fromARGB(150, 218, 217, 217),
+          fontSize: fontSize ?? 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
