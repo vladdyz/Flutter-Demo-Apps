@@ -39,9 +39,23 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: isAlreadyFavourited
-                ? Icon(Icons.star)
-                : Icon(Icons.star_border),
+            // animate the changing favourites icon (implicit)
+            // automatically detects when the child updates and plays the animation (much less code)
+            // because the widget is always an icon, give it a key to indicate to flutter that the type of icon changes
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              // rotates the star icon
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  // less rotation than the default (0-1) 
+                  turns: Tween(begin: 0.8, end: 1.0).animate(animation),
+                  child: child,
+                );
+              },
+              child: isAlreadyFavourited
+                  ? Icon(Icons.star)
+                  : Icon(Icons.star_border, key: ValueKey(isAlreadyFavourited)),
+            ),
           ),
         ],
       ),
@@ -49,11 +63,16 @@ class MealDetailsScreen extends ConsumerWidget {
         // for a scrollable column, no need to paginate it since won't have that much info
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              height: 300,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            // wrapped in a Hero element to establish connectivity with the hero wrapper in meal_item
+            // this image will now animate between the screens!
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             SizedBox(height: 15),
             Text(

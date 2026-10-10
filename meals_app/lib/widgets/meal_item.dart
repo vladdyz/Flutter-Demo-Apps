@@ -41,12 +41,16 @@ class MealItem extends StatelessWidget {
           // in order from background to foreground
           children: [
             // smoothly fades in the meal image instead of suddenly popping it in
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
-              fit: BoxFit.cover, // image is never distorted, only cuts off if doesnt fit
-              height: 200,
-              width: double.infinity,
+            // update: wrapped in Hero widget to animate this widget across different screens
+            Hero(
+              tag: meal.id, // should be a unique tag per widget
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(meal.imageUrl),
+                fit: BoxFit.cover, // image is never distorted, only cuts off if doesnt fit
+                height: 200,
+                width: double.infinity,
+              ),
             ),
             // positioned widget takes a child and allows us to set params
             Positioned(
