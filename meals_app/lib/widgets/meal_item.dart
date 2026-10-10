@@ -43,7 +43,7 @@ class MealItem extends StatelessWidget {
             // smoothly fades in the meal image instead of suddenly popping it in
             // update: wrapped in Hero widget to animate this widget across different screens
             Hero(
-              tag: meal.id, // should be a unique tag per widget
+              tag: meal.id, // should be a unique tag per widget to identify it
               child: FadeInImage(
                 placeholder: MemoryImage(kTransparentImage),
                 image: NetworkImage(meal.imageUrl),
