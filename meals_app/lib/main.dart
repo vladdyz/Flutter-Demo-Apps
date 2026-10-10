@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:meals_app/screens/categories.dart';
@@ -14,7 +15,9 @@ final theme = ThemeData(
 );
 
 void main() {
-  runApp(const App());
+  // need to wrap app in riverpod provider scope as it uses it for cross-widget state management now
+  // all parts of the app can use riverpod features now as the entire App is wrapped
+  runApp(const ProviderScope(child: App()));
 }
 
 class App extends StatelessWidget {

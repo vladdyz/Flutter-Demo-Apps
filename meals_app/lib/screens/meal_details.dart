@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/models/meal.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({
-    super.key,
-    required this.meal,
-    required this.onToggleFavourite,
-  });
+import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/favourites_provider.dart';
+
+class MealDetailsScreen extends ConsumerWidget {
+  const MealDetailsScreen({super.key, required this.meal});
 
   final Meal meal;
-  final void Function(Meal meal) onToggleFavourite;
 
+  // riverpod requires a widgetref param in the build
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // watch the favourite meals provider to change the favorite icon based on state
+    final favouriteMeals = ref.watch(favouriteMealsProvider);
+    final isAlreadyFavourited = favouriteMeals.contains(meal);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
@@ -21,9 +24,24 @@ class MealDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              onToggleFavourite(meal);
+              final wasAdded = ref
+                  .read(favouriteMealsProvider.notifier)
+                  .toggleMealFavouriteStatus(meal); // gives access to the notifier class within this provider and its method
+              // to clearly communicate to the user when an item has been favourited/unfavourited
+              ScaffoldMessenger.of(context).clearSnackBars(); // context is globally available because we're in a State object
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    wasAdded
+                        ? 'Meal has been added to favourites'
+                        : 'Meal is no longer a favourite',
+                  ),
+                ),
+              );
             },
-            icon: Icon(Icons.star),
+            icon: isAlreadyFavourited
+                ? Icon(Icons.star)
+                : Icon(Icons.star_border),
           ),
         ],
       ),
