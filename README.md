@@ -1,5 +1,13 @@
 ﻿# Flutter Demo Apps
 
+
+## Meals App
+Displays categories of popular meals, detailing their preparation instructions, difficulty, and overall cost. Supports search and filter options for common allergens (lactose, gluten) and vegan/vegetarian options. Uses Riverpod for cross-widget state management and explicit/implicit animations for various UI actions and screen transitions. Images sourced from Pixabay or other creative commons public sources.   
+
+## Shopping List
+Create and display dynamic lists of products to assist you during shopping trips, accessing data via http requests to a Firebase backend. Supports basic operations (add via form screen, delete via swiping) and responsive UI. 
+
+
  ## Expense Tracker
  An expense tracking app which allows you to log and visualize expenses by categories, supporting basic operations (add/delete), implementing responsive and platform specific design (via media queries, layout builders, platform specific alerts), supports portrait/landscape and day/night theming. 
 
