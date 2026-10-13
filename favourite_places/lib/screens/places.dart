@@ -1,15 +1,30 @@
-import 'package:favourite_places/providers/places_provider.dart';
-import 'package:favourite_places/screens/place_details.dart';
 import 'package:flutter/material.dart';
-
-import 'package:favourite_places/screens/add_place.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlacesScreen extends ConsumerWidget {
+import 'package:favourite_places/providers/places_provider.dart';
+import 'package:favourite_places/screens/place_details.dart';
+import 'package:favourite_places/screens/add_place.dart';
+
+
+class PlacesScreen extends ConsumerStatefulWidget {
   const PlacesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlacesScreen> createState() => _PlacesScreenState();
+}
+
+class _PlacesScreenState extends ConsumerState<PlacesScreen> {
+  late Future<void> _placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // start loading from the db once, not on every rebuild
+    _placesFuture = ref.read(placesProvider.notifier).loadPlaces();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final places = ref.watch(placesProvider);
 
     Widget content = Center(
@@ -69,7 +84,17 @@ class PlacesScreen extends ConsumerWidget {
         ],
         backgroundColor: Colors.black,
       ),
-      body: Padding(padding: EdgeInsets.all(16), child: content),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        // show a spinner while the places are loaded from the db
+        child: FutureBuilder(
+          future: _placesFuture,
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : content,
+        ),
+      ),
     );
   }
 }

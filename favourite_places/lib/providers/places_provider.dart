@@ -1,12 +1,11 @@
 import 'dart:io';
-
-import 'package:favourite_places/models/place.dart';
-//import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
+
+import 'package:favourite_places/models/place.dart';
 
 // create the database (or edit existing one) in the dbPath directory
 Future<Database> _getDatabase() async {
@@ -31,23 +30,27 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
 
   List<Place> build() => []; // no dummy list of places (yet!)
 
-  void loadPlaces() async {
+  Future<void> loadPlaces() async {
     final db = await _getDatabase();
     final data = await db.query(
       'user_places',
     ); // returns a Future yielding a list of maps (of rows in the db)
-    data.map(
-      (row) => Place(
-        row['title'] as String,
-        File(row['image'] as String),
-        PlaceLocation(
-          latitude: row['lat'] as double,
-          longitude: row['lng'] as double,
-          address: row['address'] as String,
-        ),
-        id: row['id'] as String,
-      ),
-    );
+    final places = data
+        .map(
+          (row) => Place(
+            row['title'] as String,
+            File(row['image'] as String),
+            PlaceLocation(
+              latitude: row['lat'] as double,
+              longitude: row['lng'] as double,
+              address: row['address'] as String,
+            ),
+            id: row['id'] as String,
+          ),
+        )
+        .toList(); // map is lazy, toList actually builds the places
+
+    state = places;
   }
 
   void addPlace(String name, File image, PlaceLocation location) async {
@@ -66,7 +69,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
 
     db.insert('user_places', {
       'id': newPlace.id,
-      'name': newPlace.name,
+      'title': newPlace.name,
       'image': newPlace.image.path,
       'lat': newPlace.location.latitude,
       'lng': newPlace.location.longitude,

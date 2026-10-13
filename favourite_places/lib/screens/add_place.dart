@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 import 'package:favourite_places/models/place.dart';
 import 'package:favourite_places/providers/places_provider.dart';
 import 'package:favourite_places/widgets/image_input.dart';
 import 'package:favourite_places/widgets/location_input.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-//import 'package:location/location.dart';
+
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});

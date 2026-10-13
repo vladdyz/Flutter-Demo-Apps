@@ -1,7 +1,7 @@
-import 'package:favourite_places/screens/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:favourite_places/screens/map.dart';
 import 'package:favourite_places/models/place.dart';
 
 class PlaceDetails extends StatelessWidget {
@@ -37,7 +37,12 @@ class PlaceDetails extends StatelessWidget {
           Positioned(
             bottom: 0,
             left: 0,
+            // initially I only pinned to the left of the screen, but this can cause problems:
+            // the location text may run off screen if too long (such as the default Google HQ address)
+            // and the map avatar will jump around in positioning depending on the length of the location text
+            right: 0,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
                   onTap: () {
